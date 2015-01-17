@@ -28,7 +28,7 @@ TEMPLATE_DIRS = [
 SECRET_KEY = 'xj*shb+-5a=u77#1(ssj9qnq!1)#ir-*c*7_d=^8ktq3)za%8c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
