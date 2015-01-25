@@ -9,7 +9,7 @@
 	    	{% if category %}
 		        <h1>Add a Page</h1>
 
-		        <form id="page_form" method="post" action="/rango/category/{{ category.slug }}/add_page/">
+		        <form id="page_form" method="post" action="{% url 'add_page' category.slug %}">
 
 		            {% csrf_token %}
 		            {% for hidden in form.hidden_fields %}
@@ -25,12 +25,9 @@
 		            <input type="submit" name="submit" value="Create Page" />
 		        </form>
 		    {% else %} 
-		    	A category by this name does not exist
-		    	<br>
-		    	<a href='/rango/'>Index</a>
+		    	<h1>A category by this name does not exist.</h1>
 		    {% endif %}
 		{% else %}
         	<h1>Log in to add a new page.</h1>
-        	<a href='/rango/'>Index</a>
         {% endif %}
 {% endblock %}

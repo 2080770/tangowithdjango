@@ -7,11 +7,10 @@
 {% block body_block %}
         {% if user.is_authenticated %}
             <h1>You are already logged in as {{ user.username }}!</h1>
-            <a href='/rango/'>Index</a>
         {% else %}
         <h1>Login to Rango</h1>
 
-        <form id="login_form" method="post" action="/rango/login/">
+        <form id="login_form" method="post" action="{% url 'login' %}">
             {% csrf_token %}
             Username: <input type="text" name="username" value="" size="50" />
             <br />
