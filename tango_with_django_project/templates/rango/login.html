@@ -1,11 +1,10 @@
-﻿<!DOCTYPE html>
-<html>
-    <head>
-        <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
-        <title>Rango</title>
-    </head>
+﻿{% extends 'rango/base.html' %}
 
-    <body>
+{% load staticfiles %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block body_block %}
         {% if user.is_authenticated %}
             <h1>You are already logged in as {{ user.username }}!</h1>
             <a href='/rango/'>Index</a>
@@ -22,5 +21,4 @@
             <input type="submit" value="submit" />
         </form>
         {% endif %}
-    </body>
-</html>
+{% endblock %}

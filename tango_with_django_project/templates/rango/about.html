@@ -1,20 +1,13 @@
-﻿<!DOCTYPE html>
+﻿{% extends 'rango/base.html' %}
 
-{% load staticfiles %} <!-- New line -->
+{% load staticfiles %}
 
-<html>
+{% block title %}{{ category_name }}{% endblock %}
 
-    <head>
-        <title>Rango</title>
-    </head>
-
-    <body>
+{% block body_block %}
         This tutorial has been put together by Hristo Radev, 2080770.
-		<br/> 
-		<a href='/rango/'>Index</a>
-    	<br/>    
-        <img src="{% static "images/me.jpg" %}" alt="Picture of Hristo Radev" /> <!-- New line -->
-       
-    </body>
 
-</html>
+        
+        <br>
+        <img src="{% static "images/me.jpg" %}" alt="Picture of Hristo Radev" width=288 height=384 /> <!-- New line -->
+{% endblock %}
