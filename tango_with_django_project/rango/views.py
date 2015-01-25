@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rango.models import Category, Page
+from rango.models import Category, Page, User
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -158,7 +158,6 @@ def register(request):
 
 
 def user_login(request):
-
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -184,9 +183,17 @@ def user_login(request):
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your Rango account is disabled.")
         else:
+            error_output = "Invalid "
+            try:
+                user = User.objects.get(username=username)
+                error_output+="password."
+            except User.DoesNotExist:
+                error_output+= "username."
+
+            error_output+= "<br><a href=''>Login</a>"    
             # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            return HttpResponse(error_output)
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
