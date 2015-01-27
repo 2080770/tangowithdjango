@@ -22,7 +22,7 @@ def index(request):
     if last_visit:
         last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
 
-        if (datetime.now() - last_visit_time).days > 0:
+        if (datetime.now() - last_visit_time).seconds > 0:
             # ...reassign the value of the cookie to +1 of what it was before...
             visits = visits + 1
             # ...and update the last visit cookie, too.
@@ -35,7 +35,6 @@ def index(request):
         request.session['last_visit'] = str(datetime.now())
         request.session['visits'] = visits
     context_dict['visits'] = visits
-
 
     response = render(request,'rango/index.html', context_dict)
 
