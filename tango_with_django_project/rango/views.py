@@ -78,6 +78,7 @@ def category(request, category_name_slug):
             context_dict['result_list'] = result_list
             context_dict['query'] = query
     else:
+
         category = Category.objects.get(slug=category_name_slug)
         category.views = category.views + 1
         category.save()
@@ -88,7 +89,6 @@ def category(request, category_name_slug):
         pages = Page.objects.filter(category=category).order_by('-views')
         context_dict['pages'] = pages
         context_dict['category'] = category
-
 
     except Category.DoesNotExist:
         pass
@@ -185,7 +185,6 @@ def track_url(request):
 
     return redirect(url)
 
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def like_category(request):
@@ -243,34 +242,38 @@ def register_profile(request):
     # Render the template depending on the context.
     return render(request, 'rango/profile_registration.html',   {'profile_form': profile_form} )
 
-def profile(request):
+def profile(request, username):
     context_dict={}
-
+    u = User.objects.get(username = username)
     if request.method == 'POST':
 
         profile_form = UserProfileForm(data = request.POST)
 
         # If the two forms are valid...
         if profile_form.is_valid():
-            userProfile = UserProfile.objects.get(user=request.user)
+
+            userProfile = UserProfile.objects.get(user = u)
             userProfile.picture = request.FILES['picture']
             userProfile.save()
-        return HttpResponseRedirect('/rango/profile')
+        return HttpResponseRedirect('/rango/profile/' + username)
 
     else:
         cat_list = get_category_list()
         context_dict = {'cat_list': cat_list}
-        u = User.objects.get(username=request.user)
 
         try:
             up = UserProfile.objects.get(user=u)
         except:
             up = None
 
-        context_dict['user'] = u
+        context_dict['visitedUser'] = u
         context_dict['userprofile'] = up
         context_dict['profile_form'] = UserProfileForm()
 
 
 
     return render(request, 'rango/profile.html', context_dict)
+
+def users(request):
+    userList = User.objects.all()
+    return render(request, 'rango/users.html',   {'users': userList} )

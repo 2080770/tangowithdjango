@@ -41,10 +41,10 @@
           <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'index' %}">Home</a></li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'restricted' %}">Restricted Page</a></li>
                         <li><a href="{% url 'add_category' %}">Add a New Category</a></li>
 						<li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
-                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                        <li><a href="{% url 'profile' user.username %}">Profile</a></li>
+                        <li><a href="{% url 'users' %}">Users</a></li>
 						<li><a href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
                     {% else %}
                         <li><a href="{% url 'registration_register' %}">Register Here</a></li>
