@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rango.models import Category, Page, User
+from rango.models import Category, Page, User, UserProfile
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -214,3 +214,63 @@ def suggest_category(request):
         cat_list = get_category_list(8, starts_with)
 
         return render(request, 'rango/category_list.html', {'cat_list': cat_list })
+
+def register_profile(request):
+    # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+
+        profile_form = UserProfileForm(data = request.POST)
+
+        # If the two forms are valid...
+        if profile_form.is_valid():
+            f = profile_form.save(commit = False)
+            f.user_id = request.user.id
+            profile_form.save()
+
+            if 'picture' in request.FILES:
+                f.picture = request.FILES['picture']
+            f.save()
+
+            return HttpResponseRedirect('/rango/')
+        else:
+            print profile_form.errors
+
+    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # These forms will be blank, ready for user input.
+    else:
+        profile_form = UserProfileForm()
+
+    # Render the template depending on the context.
+    return render(request, 'rango/profile_registration.html',   {'profile_form': profile_form} )
+
+def profile(request):
+    context_dict={}
+
+    if request.method == 'POST':
+
+        profile_form = UserProfileForm(data = request.POST)
+
+        # If the two forms are valid...
+        if profile_form.is_valid():
+            userProfile = UserProfile.objects.get(user=request.user)
+            userProfile.picture = request.FILES['picture']
+            userProfile.save()
+        return HttpResponseRedirect('/rango/profile')
+
+    else:
+        cat_list = get_category_list()
+        context_dict = {'cat_list': cat_list}
+        u = User.objects.get(username=request.user)
+
+        try:
+            up = UserProfile.objects.get(user=u)
+        except:
+            up = None
+
+        context_dict['user'] = u
+        context_dict['userprofile'] = up
+        context_dict['profile_form'] = UserProfileForm()
+
+
+
+    return render(request, 'rango/profile.html', context_dict)

@@ -1,0 +1,31 @@
+{% extends "rango/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body_block %}
+<div class="hero-unit">
+    <div class="page-header">
+   	   <h1> Profile </h1>
+    </div>
+	   <h2>{{ user.username }}</h2>
+       <p>Email: {{ user.email }}</p>
+       
+       {% if userprofile %}
+	   <p>Website: <a href="{{ userprofile.website }}">{{userprofile.website}}</a></p>
+           <br/>
+       {% if userprofile.picture %}
+
+	    <img src="{{ userprofile.picture.url }}" width=" 300" height="200"  /><br/><br/>
+	   {% endif %}
+
+            Update your photo
+     <form id="user_form" method="post" action="{% url 'profile' %}"
+                enctype="multipart/form-data">
+         {% csrf_token %}
+            {{ profile_form.picture }}
+        <input type="submit" name="submit" value="submit" /></form>
+
+
+	   {% endif %}
+</div>
+{% endblock %}

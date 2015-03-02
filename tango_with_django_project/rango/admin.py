@@ -1,7 +1,6 @@
 from django.contrib import admin
 from rango.models import Category, Page, UserProfile
 
-
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('name',)}
     list_display = ['name', 'views', 'likes']
