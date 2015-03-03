@@ -11,13 +11,13 @@
         <strong id="like_count">{{ category.likes }}</strong> people like this category
 
         {% if user.is_authenticated %}
-			{% if voted == False %}
-				<button id="likes" data-catid="{{category.id}}" class="btn btn-primary" type="button">
+			{% if vote.voted == False %}
+				<button id="likes" data-catid="{{category.id}}" data-vote="{{vote.voted}}" class="btn btn-primary" type="button">
 				<span class="glyphicon glyphicon-thumbs-up"></span>
 				Like
 				</button>
 			{% else %}
-				<button id="likes" data-catid="{{category.id}}" class="btn btn-primary" type="button">
+				<button id="likes" data-catid="{{category.id}}" data-vote="{{vote.voted}}" class="btn btn-primary" type="button">
 				<span class="glyphicon glyphicon-thumbs-down"></span>
 				Unlike
 				</button

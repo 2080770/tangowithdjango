@@ -92,18 +92,17 @@ def category(request, category_name_slug):
         pages = Page.objects.filter(category=category).order_by('-views')
         context_dict['pages'] = pages
         context_dict['category'] = category
+        if(request.user):
+                vote = Vote.objects.get_or_create(user = request.user, category = category)
+                vote = vote[0]
+                context_dict['vote'] = vote
 
-        vote = Vote.objects.get_or_create(user = request.user, category = category)
-        voted = vote[0].voted
-        context_dict['voted'] = voted
-        
-        print vote
     except Category.DoesNotExist:
         pass
 
     if not context_dict['query']:
         context_dict['query'] = category.name
-    print context_dict    
+       
     return render(request, 'rango/category.html', context_dict)
 
 
@@ -202,6 +201,8 @@ def like_category(request):
         cat_id = request.GET['category_id']
 
     likes = 0
+    voted = False
+    
     if cat_id:
         cat = Category.objects.get(id=int(cat_id))
         if cat:
@@ -209,14 +210,16 @@ def like_category(request):
 
             if vote.voted == True:
                 likes = cat.likes - 1
-                vote.voted = False
+                voted = False
             else:
                 likes = cat.likes + 1
-                vote.voted = True
-            vote.save()
-            cat.likes = likes
-            cat.save()
+                voted = True
 
+            cat.likes = likes
+            vote.voted = voted
+            vote.save()
+            cat.save()
+                
     return HttpResponse(likes)
 
 def suggest_category(request):
