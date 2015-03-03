@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rango.models import Category, Page, User, UserProfile
+from rango.models import Category, Page, User, UserProfile, Vote
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -78,11 +78,14 @@ def category(request, category_name_slug):
             context_dict['result_list'] = result_list
             context_dict['query'] = query
     else:
-
+        
         category = Category.objects.get(slug=category_name_slug)
         category.views = category.views + 1
         category.save()
 
+        
+        
+               
     try:
         category = Category.objects.get(slug=category_name_slug)
         context_dict['category_name'] = category.name
@@ -90,12 +93,17 @@ def category(request, category_name_slug):
         context_dict['pages'] = pages
         context_dict['category'] = category
 
+        vote = Vote.objects.get_or_create(user = request.user, category = category)
+        voted = vote[0].voted
+        context_dict['voted'] = voted
+        
+        print vote
     except Category.DoesNotExist:
         pass
 
     if not context_dict['query']:
         context_dict['query'] = category.name
-
+    print context_dict    
     return render(request, 'rango/category.html', context_dict)
 
 
@@ -197,8 +205,16 @@ def like_category(request):
     if cat_id:
         cat = Category.objects.get(id=int(cat_id))
         if cat:
-            likes = cat.likes + 1
-            cat.likes =  likes
+            vote = Vote.objects.get(user = request.user, category = cat)
+
+            if vote.voted == True:
+                likes = cat.likes - 1
+                vote.voted = False
+            else:
+                likes = cat.likes + 1
+                vote.voted = True
+            vote.save()
+            cat.likes = likes
             cat.save()
 
     return HttpResponse(likes)

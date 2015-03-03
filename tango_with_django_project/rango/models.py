@@ -37,3 +37,13 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+
+class Vote(models.Model):
+        user = models.ForeignKey(User)
+        category = models.ForeignKey(Category)
+        voted = models.BooleanField(default = False)
+        
+        def __unicode__(self):
+               return self.user.username
+
+        
