@@ -11,6 +11,7 @@ $(document).ready(function() {
 	                    var dict = JSON.parse(data);
 	                    likes = dict["likes"]
 	                    voted = dict["voted"]
+
 	                   $('#like_count').html(likes);
 
 					   if(voted == false){

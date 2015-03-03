@@ -86,9 +86,6 @@ def category(request, category_name_slug):
         category.views = category.views + 1
         category.save()
 
-        
-        
-               
     try:
         category = Category.objects.get(slug=category_name_slug)
         context_dict['category_name'] = category.name
@@ -96,11 +93,10 @@ def category(request, category_name_slug):
         context_dict['pages'] = pages
         context_dict['category'] = category
 
-        if(request.user.id):
-            user = request.user.id
-            vote = Vote.objects.get_or_create(user = user, category = category)
+        if(request.user.is_authenticated()):
+            vote = Vote.objects.get_or_create(user = request.user, category = category)
             vote = vote[0]
-            context_dict['vote'] = vote
+            context_dict['voted'] = vote.voted
 
 
     except Category.DoesNotExist:
@@ -207,7 +203,6 @@ def like_category(request):
         cat_id = request.GET['category_id']
 
     likes = 0
-    voted = False
     data = ''
 
     if cat_id:
@@ -232,6 +227,8 @@ def like_category(request):
 
     return HttpResponse(data)
 
+
+
 def suggest_category(request):
 
         cat_list = []
@@ -242,6 +239,9 @@ def suggest_category(request):
         cat_list = get_category_list(8, starts_with)
 
         return render(request, 'rango/category_list.html', {'cat_list': cat_list })
+
+
+
 
 def register_profile(request):
     # If it's a HTTP POST, we're interested in processing form data.
@@ -271,6 +271,9 @@ def register_profile(request):
     # Render the template depending on the context.
     return render(request, 'rango/profile_registration.html',   {'profile_form': profile_form} )
 
+
+
+
 def profile(request, username):
     context_dict={}
     u = User.objects.get(username = username)
@@ -299,9 +302,9 @@ def profile(request, username):
         context_dict['userprofile'] = up
         context_dict['profile_form'] = UserProfileForm()
 
-
-
     return render(request, 'rango/profile.html', context_dict)
+
+
 
 def users(request):
     userList = User.objects.all()
