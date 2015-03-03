@@ -4,16 +4,24 @@ $(document).ready(function() {
 	        var catid;
 	        catid = $(this).attr("data-catid");
 
+            var likes;
+            var voted;
 	         $.get('/rango/like_category/', {category_id: catid}, function(data){
-	                   $('#like_count').html(data);
-					   $('#likes').hide()
-					   
-					   if (vote = "False"){
-							$('#likes').html("<span class='glyphicon glyphicon-thumbs-up'></span> Like");
+
+	                    var dict = JSON.parse(data);
+	                    likes = dict["likes"]
+	                    voted = dict["voted"]
+	                   $('#like_count').html(likes);
+
+					   if(voted == false){
+					        $('#likes').html("<span class='glyphicon glyphicon-thumbs-up'></span> Like </button");
 					   }
-					   else {
-							$('#likes').html("<span class='glyphicon glyphicon-thumbs-down'></span> Unlike");
-					   }
+
+                       else {
+                            $('#likes').html("<span class='glyphicon glyphicon-thumbs-down'></span> Unlike </button");
+                       }
+
+
 	               });
 	    });
 

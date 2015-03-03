@@ -9,6 +9,8 @@ from rango.bing_search import run_query
 from django.shortcuts import redirect
 
 
+import json as simplejson
+
 def get_category_list(max_results=0, starts_with=''):
         cat_list = []
         if starts_with:
@@ -68,6 +70,7 @@ def category(request, category_name_slug):
     context_dict = {}
     context_dict['result_list'] = None
     context_dict['query'] = None
+    context_dict['voted'] = False
     if request.method == 'POST':
         query = request.POST['query'].strip()
 
@@ -92,10 +95,13 @@ def category(request, category_name_slug):
         pages = Page.objects.filter(category=category).order_by('-views')
         context_dict['pages'] = pages
         context_dict['category'] = category
-        if(request.user):
-                vote = Vote.objects.get_or_create(user = request.user, category = category)
-                vote = vote[0]
-                context_dict['vote'] = vote
+
+        if(request.user.id):
+            user = request.user.id
+            vote = Vote.objects.get_or_create(user = user, category = category)
+            vote = vote[0]
+            context_dict['vote'] = vote
+
 
     except Category.DoesNotExist:
         pass
@@ -202,7 +208,8 @@ def like_category(request):
 
     likes = 0
     voted = False
-    
+    data = ''
+
     if cat_id:
         cat = Category.objects.get(id=int(cat_id))
         if cat:
@@ -219,8 +226,11 @@ def like_category(request):
             vote.voted = voted
             vote.save()
             cat.save()
-                
-    return HttpResponse(likes)
+
+        dict = {"likes": likes, "voted":voted}
+        data += simplejson.dumps(dict)+'\n'
+
+    return HttpResponse(data)
 
 def suggest_category(request):
 

@@ -12,12 +12,12 @@
 
         {% if user.is_authenticated %}
 			{% if vote.voted == False %}
-				<button id="likes" data-catid="{{category.id}}" data-vote="{{vote.voted}}" class="btn btn-primary" type="button">
+				<button id="likes" data-catid="{{category.id}}" class="btn btn-primary" type="button">
 				<span class="glyphicon glyphicon-thumbs-up"></span>
 				Like
 				</button>
 			{% else %}
-				<button id="likes" data-catid="{{category.id}}" data-vote="{{vote.voted}}" class="btn btn-primary" type="button">
+				<button id="likes" data-catid="{{category.id}}"  class="btn btn-primary" type="button">
 				<span class="glyphicon glyphicon-thumbs-down"></span>
 				Unlike
 				</button
