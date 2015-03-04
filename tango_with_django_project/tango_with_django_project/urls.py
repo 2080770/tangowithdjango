@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static 
 from registration.backends.simple.views import RegistrationView
+from django.views.generic.base import RedirectView
 
 # Create a new class that redirects the user to the index page, if successful at logging
 class MyRegistrationView(RegistrationView):
@@ -11,6 +12,7 @@ class MyRegistrationView(RegistrationView):
 
 
 urlpatterns = patterns('',
+    url(r'^$', RedirectView.as_view(url='/rango', permanent=False), name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^rango/', include('rango.urls')),
         #Add in this url pattern to override the default pattern in accounts.
