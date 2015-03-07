@@ -109,8 +109,8 @@
       <file leaf-file-name="keys.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rango/keys.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="582">
-              <caret line="0" column="40" selection-start-line="0" selection-start-column="40" selection-end-line="0" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.087628864" vertical-offset="0" max-vertical-offset="582">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -142,7 +142,6 @@
         <option value="$PROJECT_DIR$/templates/rango/add_page.html" />
         <option value="$PROJECT_DIR$/templates/registration/login.html" />
         <option value="$PROJECT_DIR$/rango/templatetags/__init__.py" />
-        <option value="$PROJECT_DIR$/rango/keys.py" />
         <option value="$PROJECT_DIR$/rango/bing_search.py" />
         <option value="$PROJECT_DIR$/rango/templatetags/rango_extras.py" />
         <option value="$PROJECT_DIR$/templates/rango/cats.html" />
@@ -163,6 +162,7 @@
         <option value="$PROJECT_DIR$/rango/views.py" />
         <option value="$PROJECT_DIR$/tango_with_django_project/urls.py" />
         <option value="$PROJECT_DIR$/templates/rango/index.html" />
+        <option value="$PROJECT_DIR$/rango/keys.py" />
       </list>
     </option>
   </component>
@@ -939,8 +939,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/rango/keys.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="582">
-          <caret line="0" column="40" selection-start-line="0" selection-start-column="40" selection-end-line="0" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.087628864" vertical-offset="0" max-vertical-offset="582">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding />
         </state>
       </provider>
